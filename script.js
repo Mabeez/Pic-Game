@@ -144,7 +144,7 @@ let elapsed = timestamp - startTime
 let progress = Math.min(elapsed / totalRevealTime,1)
 
 /* pixel scale */
-let scale = 0.005 + (0.35 * progress)
+let scale = 0.005 + (0.30 * progress)
 
 draw(scale)
 
