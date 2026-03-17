@@ -1,0 +1,116 @@
+.kranky-regular {
+  font-family: "Kranky", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+body{
+    font-family: "Kranky", serif;
+    font-size: 2rem;
+    
+    background: linear-gradient(135deg,#206af3,#019797);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    color:rgb(0, 0, 0);
+}
+
+/* Game card */
+
+.game-container{
+    background: white;
+    padding:30px;
+    border-radius:20px;
+    width:900px;
+    text-align:center;
+    font-size: rem;
+    box-shadow:13px 20px 60px rgba(119, 1, 1, 0.6);
+}
+
+/* Title */
+
+h1{
+    margin-top:0;
+}
+
+/* Stats row */
+
+.stats{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+    font-size:28px;
+    text-shadow: 1px 1px #05b522;
+}
+
+/* Canvas image */
+
+#canvas{
+    border-radius:15px;
+    border:3px solid white;
+    box-shadow:30px 25px 10px rgba(46, 46, 46, 0.7);
+    width: 600px;
+}
+
+/* Answer */
+
+#answer{
+    margin-top:15px;
+    font-size:38px;
+    text-shadow: 1px 1px black;
+    color:#05b522;
+}
+
+.hidden{
+    visibility:hidden;
+}
+
+/* Controls */
+
+.controls{
+    margin-top:20px;
+}
+
+/* Input */
+
+input{
+    padding:10px;
+    font-size:16px;
+    border-radius:8px;
+    border:none;
+    width:200px;
+    margin-right:10px;
+}
+
+/* Buttons */
+
+button{
+    padding:10px 18px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#00c9ff;
+    color:white;
+    transition:all 0.2s ease;
+}
+
+button:hover{
+    background:#0099cc;
+    transform:translateY(-2px);
+}
+
+/* Pause button */
+
+#pauseButton{
+    margin-top:15px;
+    background:#ff7a18;
+}
+
+#pauseButton:hover{
+    background:#e86500;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Picture Trivia</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#243b55">
+
+</head>
+
+<body>
+
+<div class="game-container">
+
+<!-- LOADING SCREEN -->
+<div id="loading">
+<h2>Loading images...</h2>
+</div>
+
+<!-- START SCREEN -->
+<div id="startScreen" style="display:none;">
+<h1>Picture Trivia</h1>
+<button onclick="startGame()">Play Game</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen" style="display:none;">
+
+<h1>Guess The Picture</h1>
+
+<div class="stats">
+<div>Round: <span id="round">1</span></div>
+<div>Time: <span id="timer">20</span></div>
+<div>Score: <span id="score">0</span></div>
+</div>
+
+<canvas id="canvas" width="500" height="350"></canvas>
+
+<h2 id="answer" class="hidden"></h2>
+
+<div class="controls">
+<input id="guess" placeholder="Your guess">
+<button onclick="submitGuess()">Submit</button>
+</div>
+
+<button id="pauseButton" onclick="togglePause()">Pause</button>
+
+</div>
+
+<!-- END SCREEN -->
+<div id="endScreen" style="display:none;">
+<h1>Game Over</h1>
+
+<p>Score: <span id="finalScore"></span></p>
+<p>High Score: <span id="highScore"></span></p>
+
+<button onclick="startGame()">Play Again</button>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+<!-- SERVICE WORKER -->
+<script>
+if ("serviceWorker" in navigator) {
+navigator.serviceWorker.register("service-worker.js")
+}
+</script>
+
+</body>
+</html>
