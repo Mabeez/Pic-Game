@@ -166,8 +166,6 @@ ctx.drawImage(img,0,0,canvas.width,canvas.height)
 
 showAnswer()
 
-setTimeout(nextRound,2000)
-
 }
 
 }
@@ -207,7 +205,6 @@ showAnswer()
 
 alert("Correct! +" + points)
 
-nextRound()
 
 }else{
 
@@ -235,9 +232,17 @@ function nextRound(){
 
 cancelAnimationFrame(animationFrame)
 
+/* force full image draw so it doesn't glitch */
+ctx.imageSmoothingEnabled = true
+ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.drawImage(img,0,0,canvas.width,canvas.height)
+
+/* show answer before moving on */
+showAnswer()
+
 round++
 
-setTimeout(startRound,1000)
+setTimeout(startRound,500)
 
 }
 
