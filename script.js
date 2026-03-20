@@ -11,7 +11,7 @@ let questions = [
 {src:"images/fire.jpg", answer:"Fire"},
 {src:"images/fortnite.jpg", answer:"Fortnite"},
 {src:"images/helicopter.jpg", answer:"Helicopter"},
-{src:"images/lightening.jpg", answer:"Lightening"},
+{src:"images/lightning.jpg", answer:"Lightning"},
 {src:"images/lion.jpg", answer:"Lion"},
 {src:"images/luffy.jpg", answer:"Luffy"},
 {src:"images/maki.webp", answer:"Maki"},
@@ -32,6 +32,27 @@ let questions = [
 ];
 
 let loadedImages = []
+
+/* CANADA */
+
+const canadaMap = new Image()
+canadaMap.src = "images/canada.jpg"
+
+let provinces = [
+{name:"British Columbia", points:[[25,180],[85,160],[145,210],[130,260],[90,300],[60,260]]},
+{name:"Alberta", points:[[140,190],[185,190],[195,270],[185,320],[140,320]]},
+{name:"Saskatchewan", points:[[190,190],[245,190],[255,270],[245,320],[195,320]]},
+{name:"Manitoba", points:[[255,190],[305,190],[315,270],[305,320],[260,320]]},
+{name:"Ontario", points:[[315,210],[385,200],[445,235],[455,290],[395,345],[330,310]]},
+{name:"Quebec", points:[[420,190],[520,190],[580,250],[530,310],[470,285],[430,250],[420,220]]},
+{name:"New Brunswick", points:[[520,300],[545,300],[565,330],[540,340],[520,325]]},
+{name:"Nova Scotia", points:[[545,335],[585,350],[610,375],[590,390],[560,375],[545,350]]},
+{name:"Prince Edward Island", points:[[558,296],[578,296],[582,308],[565,308]]},
+{name:"Newfoundland and Labrador", points:[[575,170],[638,170],[690,220],[660,250],[620,235],[590,210]]}
+]
+
+let currentProvince = null
+let gameMode = "image"
 
 /* GAME STATE */
 
@@ -95,8 +116,13 @@ loadedImages[j] = tempImg
 
 function startGame(){
 
+gameMode = "image"
+totalRounds = questions.length
+
 document.getElementById("startScreen").style.display = "none"
 document.getElementById("gameScreen").style.display = "block"
+
+document.querySelector("h1").innerText = "Guess The Picture"
 
 round = 0
 score = 0
@@ -191,6 +217,8 @@ ctx.drawImage(canvas,0,0,w,h,0,0,canvas.width,canvas.height)
 
 function submitGuess(){
 
+if(gameMode === "image"){
+
 let guess = document.getElementById("guess").value.toLowerCase().trim()
 let correct = questions[round].answer.toLowerCase().trim()
 
@@ -214,6 +242,12 @@ alert("Wrong!")
 
 document.getElementById("guess").value = ""
 
+} else if(gameMode === "canada"){
+
+submitCanadaGuess()
+
+}
+
 }
 
 /* ANSWER */
@@ -230,6 +264,8 @@ el.classList.remove("hidden")
 
 function nextRound(){
 
+if(gameMode === "image"){
+
 cancelAnimationFrame(animationFrame)
 
 /* force full image draw so it doesn't glitch */
@@ -243,6 +279,14 @@ showAnswer()
 round++
 
 setTimeout(startRound,500)
+
+} else if(gameMode === "canada"){
+
+round++
+
+startCanadaRound()
+
+}
 
 }
 
@@ -269,22 +313,162 @@ animationFrame = requestAnimationFrame(animate)
 
 }
 
-/* END GAME */
+/* START CANADA GAME */
 
-function endGame(){
+function startCanadaGame(){
 
-let high = localStorage.getItem("highScore") || 0
+gameMode = "canada"
+totalRounds = provinces.length
 
-if(score > high){
-localStorage.setItem("highScore",score)
-high = score
+document.getElementById("startScreen").style.display = "none"
+document.getElementById("gameScreen").style.display = "block"
+
+document.querySelector("h1").innerText = "Guess The Province"
+
+round = 0
+score = 0
+
+document.getElementById("score").innerText = score
+
+startCanadaRound()
+
 }
 
-document.getElementById("finalScore").innerText = score
-document.getElementById("highScore").innerText = high
+/* CANADA ROUND */
 
-document.getElementById("gameScreen").style.display = "none"
-document.getElementById("endScreen").style.display = "block"
+function startCanadaRound(){
+
+if(round >= totalRounds){
+endGame()
+return
+}
+
+document.getElementById("round").innerText = round + 1
+
+let answerEl = document.getElementById("answer")
+answerEl.innerText = ""
+answerEl.classList.add("hidden")
+
+document.getElementById("guess").value = ""
+
+let randomIndex = Math.floor(Math.random() * provinces.length)
+currentProvince = provinces[randomIndex]
+
+drawCanada()
+
+startTime = performance.now()
+timeLeft = 15
+document.getElementById("timer").innerText = timeLeft
+
+animationFrame = requestAnimationFrame(canadaAnimate)
+
+}
+
+/* CANADA ANIMATE */
+
+function canadaAnimate(){
+
+let elapsed = performance.now() - startTime
+timeLeft = Math.max(0, 15 - Math.floor(elapsed / 1000))
+document.getElementById("timer").innerText = timeLeft
+
+if(timeLeft <= 0){
+showCanadaAnswer()
+return
+}
+
+animationFrame = requestAnimationFrame(canadaAnimate)
+
+}
+
+/* DRAW CANADA */
+
+function drawCanada(){
+
+if (!canadaMap.complete || canadaMap.naturalWidth === 0) return
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+let mapRatio = canadaMap.naturalWidth / canadaMap.naturalHeight
+let canvasRatio = canvas.width / canvas.height
+let drawWidth, drawHeight, offsetX=0, offsetY=0
+
+if(canvasRatio > mapRatio){
+drawHeight = canvas.height
+drawWidth = mapRatio * drawHeight
+offsetX = (canvas.width - drawWidth)/2
+} else {
+drawWidth = canvas.width
+drawHeight = drawWidth / mapRatio
+offsetY = (canvas.height - drawHeight)/2
+}
+
+ctx.drawImage(canadaMap, offsetX, offsetY, drawWidth, drawHeight)
+
+let scaleX = drawWidth / 1000
+let scaleY = drawHeight / 500
+
+ctx.fillStyle = "rgba(255,0,0,0.4)"
+ctx.strokeStyle = "red"
+ctx.lineWidth = 2
+
+let pts = currentProvince.points
+ctx.beginPath()
+ctx.moveTo(pts[0][0]*scaleX + offsetX, pts[0][1]*scaleY + offsetY)
+for(let i=1;i<pts.length;i++){
+ctx.lineTo(pts[i][0]*scaleX + offsetX, pts[i][1]*scaleY + offsetY)
+}
+ctx.closePath()
+ctx.fill()
+ctx.stroke()
+
+ctx.fillStyle = "black"
+ctx.font = `${30 * scaleX}px Arial`
+ctx.fillText("Guess this province", 20*scaleX + offsetX, 40*scaleY + offsetY)
+
+}
+
+/* CANADA GUESS */
+
+function submitCanadaGuess(){
+
+let guess = document.getElementById("guess").value.toLowerCase().trim()
+let correct = currentProvince.name.toLowerCase().trim()
+
+if(guess === correct){
+
+let points = Math.max(10, timeLeft * 5)
+score += points
+document.getElementById("score").innerText = score
+
+showCanadaAnswer()
+
+alert("Correct! +" + points)
+
+}else{
+
+alert("Wrong!")
+
+}
+
+document.getElementById("guess").value = ""
+
+}
+
+/* CANADA ANSWER */
+
+function showCanadaAnswer(){
+
+cancelAnimationFrame(animationFrame)
+
+let el = document.getElementById("answer")
+el.innerText = currentProvince.name
+el.classList.remove("hidden")
+
+setTimeout(() => {
+round++
+startCanadaRound()
+}, 2000)
 
 }
 
