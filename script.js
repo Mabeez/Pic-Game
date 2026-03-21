@@ -432,13 +432,15 @@ ctx.closePath()
 ctx.fill()
 ctx.stroke()
 
-ctx.fillStyle = "blue"
-ctx.shadowColor = "black"
-ctx.shadowBlur = 1
+ctx.fillStyle = "black"
+ctx.shadowColor = "yellow"
+
 ctx.shadowOffsetX = 1
 ctx.shadowOffsetY = 1
-ctx.font = `${30 * scaleX}px Arial`
-ctx.fillText("Guess the province or Territory", 579*scaleX + offsetX, 30*scaleY + offsetY)
+ctx.font = `${25 * scaleX}px Arial`
+ctx.fillText("Guess the province or Territory", 579*scaleX + offsetX, 30*scaleY + offsetY),
+ctx.fillText("Prince Edward Island = PEI", 715*scaleX + offsetX, 100*scaleY + offsetY),
+ctx.fillText("Northwest Territories = NWT", 720*scaleX + offsetX, 125*scaleY + offsetY),
 ctx.shadowColor = "transparent"
 
 }
