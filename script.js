@@ -520,3 +520,11 @@ canvas.addEventListener("click", function onClick(e) {
     const relativeY = ((y - offsetY) / drawHeight) * 500
     console.log(Math.round(relativeX), Math.round(relativeY))
 })
+
+const guessInput = document.getElementById("guess")
+
+guessInput.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+        submitGuess()
+    }
+})
