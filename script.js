@@ -39,16 +39,18 @@ const canadaMap = new Image()
 canadaMap.src = "images/canada.jpg"
 
 let provinces = [
-{name:"British Columbia", points:[[25,180],[85,160],[145,210],[130,260],[90,300],[60,260]]},
-{name:"Alberta", points:[[140,190],[185,190],[195,270],[185,320],[140,320]]},
-{name:"Saskatchewan", points:[[190,190],[245,190],[255,270],[245,320],[195,320]]},
-{name:"Manitoba", points:[[255,190],[305,190],[315,270],[305,320],[260,320]]},
-{name:"Ontario", points:[[315,210],[385,200],[445,235],[455,290],[395,345],[330,310]]},
-{name:"Quebec", points:[[420,190],[520,190],[580,250],[530,310],[470,285],[430,250],[420,220]]},
-{name:"New Brunswick", points:[[520,300],[545,300],[565,330],[540,340],[520,325]]},
-{name:"Nova Scotia", points:[[545,335],[585,350],[610,375],[590,390],[560,375],[545,350]]},
-{name:"Prince Edward Island", points:[[558,296],[578,296],[582,308],[565,308]]},
-{name:"Newfoundland and Labrador", points:[[575,170],[638,170],[690,220],[660,250],[620,235],[590,210]]}
+//{name:"British Columbia", points:[[47,155],[208,204],[164,287],[164,287],[205,356],[103,337]]},
+//{name:"Alberta", points:[[208,204],[300,224],[257,363],[212,356],[166,288]]},
+//{name:"Saskatchewan", points:[[303,221],[377,233],[373,294],[366,373],[261,365]]},
+//{name:"Manitoba", points:[[380,232],[454,231],[515,270],[451,327],[451,378],[372,372]]},
+//{name:"Ontario", points:[[518,273],[591,288],[639,338],[663,390],[723,401],[634,453],[593,410],[454,378],[451,328]]},
+//{name:"Quebec", points:[[871,290],[889,259],[782,288],[761,251],[789,243],[738,191],[685,190],[604,188],[637,335],[662,387],[725,397],[774,392],[801,317]]},
+//{name:"New Brunswick", points:[[798,350],[840,340],[840,350],[859,359],[843,375],[826,378]]},
+//{name:"Nova Scotia", points:[[863,361],[887,355],[894,347],[895,334],[904,334],[904,338],[918,341],[910,348],[902,356],[906,356],[871,377],[866,389],[859,394],[848,392]]},
+//{name:"Prince Edward Island", points:[[852,347],[862,350],[869,350],[883,345],[887,350],[880,354],[852,355]]},
+//{name:"Newfoundland and Labrador", points:[[741,185],[818,223],[822,233],[894,249],[894,258],[816,278],[802,270],[809,291],[785,286],[769,283],[760,253],[788,249]]},
+//{name:"Yukon", points:[[148,45],[171,63],[148,80],[159,89],[152,99],[150,123],[157,131],[148,153],[159,175],[173,184],[170,194],[120,178],[47,150],[45,140],[32,134]]},
+{name:"Northwest Territories", points:[[173,195],[250,213],[300,221],[377,232],[380,178],[289,136],[284,126],[308,106]]}
 ]
 
 let currentProvince = null
@@ -82,7 +84,11 @@ loadedImages[i] = image
 if(loaded === questions.length) callback()
 }
 
-image.onerror = () => console.log("Failed:", q.src)
+image.onerror = () => {
+console.log("Failed:", q.src)
+loaded++
+if(loaded === questions.length) callback()
+}
 
 image.src = q.src
 
@@ -153,7 +159,15 @@ document.getElementById("guess").value = ""
 
 img.src = loadedImages[round].src
 
-startTime = null
+// Show full image immediately
+ctx.imageSmoothingEnabled = true
+ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.drawImage(img,0,0,canvas.width,canvas.height)
+
+startTime = performance.now()
+timeLeft = 15
+document.getElementById("timer").innerText = timeLeft
+
 animationFrame = requestAnimationFrame(animate)
 
 }
@@ -164,52 +178,16 @@ function animate(timestamp){
 
 if(isPaused) return
 
-if(!startTime) startTime = timestamp
-
-let elapsed = timestamp - startTime
-let progress = Math.min(elapsed / totalRevealTime,1)
-
-/* pixel scale */
-let scale = 0.005 + (0.30 * progress)
-
-draw(scale)
-
-/* timer */
-timeLeft = Math.ceil((totalRevealTime - elapsed)/1000)
-if(timeLeft < 0) timeLeft = 0
-
+let elapsed = performance.now() - startTime
+timeLeft = Math.max(0, 15 - Math.floor(elapsed / 1000))
 document.getElementById("timer").innerText = timeLeft
 
-if(progress < 1){
+if(timeLeft <= 0){
+showAnswer()
+return
+}
 
 animationFrame = requestAnimationFrame(animate)
-
-}else{
-
-ctx.imageSmoothingEnabled = true
-ctx.clearRect(0,0,canvas.width,canvas.height)
-ctx.drawImage(img,0,0,canvas.width,canvas.height)
-
-showAnswer()
-
-}
-
-}
-
-/* DRAW */
-
-function draw(scale){
-
-let w = canvas.width * scale
-let h = canvas.height * scale
-
-ctx.imageSmoothingEnabled = false
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-ctx.drawImage(img,0,0,w,h)
-
-ctx.drawImage(canvas,0,0,w,h,0,0,canvas.width,canvas.height)
 
 }
 
@@ -268,11 +246,6 @@ if(gameMode === "image"){
 
 cancelAnimationFrame(animationFrame)
 
-/* force full image draw so it doesn't glitch */
-ctx.imageSmoothingEnabled = true
-ctx.clearRect(0,0,canvas.width,canvas.height)
-ctx.drawImage(img,0,0,canvas.width,canvas.height)
-
 /* show answer before moving on */
 showAnswer()
 
@@ -305,7 +278,7 @@ document.getElementById("pauseButton").innerText = "Resume"
 isPaused = false
 document.getElementById("pauseButton").innerText = "Pause"
 
-startTime = performance.now() - ((20 - timeLeft)*1000)
+startTime = performance.now() - ((15 - timeLeft)*1000)
 
 animationFrame = requestAnimationFrame(animate)
 
@@ -479,4 +452,29 @@ preloadImages(()=>{
 document.getElementById("loading").style.display = "none"
 document.getElementById("startScreen").style.display = "block"
 
+})
+
+// Fallback in case images take too long
+setTimeout(() => {
+if(document.getElementById("loading").style.display !== "none"){
+document.getElementById("loading").style.display = "none"
+document.getElementById("startScreen").style.display = "block"
+console.log("Fallback: showing start screen")
+}
+}, 5000)
+
+canvas.addEventListener("click", function onClick(e) {
+    const rect = canvas.getBoundingClientRect()
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width)
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height)
+
+    // map back to CANADA base coords
+    const mapRatio = canadaMap.naturalWidth / canadaMap.naturalHeight
+    const drawWidth = mapRatio * canvas.height
+    const drawHeight = drawWidth / mapRatio
+    const offsetX = (canvas.width - drawWidth)/2
+    const offsetY = (canvas.height - drawHeight)/2
+    const relativeX = ((x - offsetX) / drawWidth) * 1000
+    const relativeY = ((y - offsetY) / drawHeight) * 500
+    console.log(Math.round(relativeX), Math.round(relativeY))
 })
