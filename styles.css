@@ -40,7 +40,6 @@ body{
 
 h1{
     margin-top:0;
-    animation: rotate 2s linear infinite;
 }
 
 /* Stats row */

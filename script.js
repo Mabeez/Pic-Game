@@ -50,7 +50,8 @@ let provinces = [
 //{name:"Prince Edward Island", points:[[852,347],[862,350],[869,350],[883,345],[887,350],[880,354],[852,355]]},
 //{name:"Newfoundland and Labrador", points:[[741,185],[818,223],[822,233],[894,249],[894,258],[816,278],[802,270],[809,291],[785,286],[769,283],[760,253],[788,249]]},
 //{name:"Yukon", points:[[148,45],[171,63],[148,80],[159,89],[152,99],[150,123],[157,131],[148,153],[159,175],[173,184],[170,194],[120,178],[47,150],[45,140],[32,134]]},
-{name:"Northwest Territories", points:[[173,195],[250,213],[300,221],[377,232],[380,178],[289,136],[284,126],[308,106]]}
+//{name:"Northwest Territories", points:[[173,195],[250,213],[300,221],[377,232],[380,178],[289,136],[284,126],[308,106],[261,78],[185,56],[170,63],[166,61],[148,79],[148,119],[147,147]]},
+{name:"Nunavut", points:[[380,230],[452,230],[491,191],[444,176],[493,180],[556,194],[570,186],[653,164],[683,169],[707,170],[700,101],[533,52],[403,49],[366,50],[349,92],[298,89],[307,111],[286,123],[287,136],[382,178]]}
 ]
 
 let currentProvince = null
@@ -395,9 +396,14 @@ ctx.closePath()
 ctx.fill()
 ctx.stroke()
 
-ctx.fillStyle = "black"
+ctx.fillStyle = "blue"
+ctx.shadowColor = "black"
+ctx.shadowBlur = 1
+ctx.shadowOffsetX = 1
+ctx.shadowOffsetY = 1
 ctx.font = `${30 * scaleX}px Arial`
-ctx.fillText("Guess this province", 20*scaleX + offsetX, 40*scaleY + offsetY)
+ctx.fillText("Guess the province or Territory", 579*scaleX + offsetX, 30*scaleY + offsetY)
+ctx.shadowColor = "transparent"
 
 }
 
