@@ -3,7 +3,7 @@ const CACHE_NAME = "trivia-cache-v1";
 const urlsToCache = [
   "/",
   "index.html",
-  "style.css",
+  "styles.css",
   "script.js"
 ];
 

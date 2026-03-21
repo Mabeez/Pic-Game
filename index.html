@@ -22,7 +22,7 @@
 
 <!-- LOADING SCREEN -->
 <div id="loading">
-<h2>Loading images...</h2>
+<h2>Hold your horses... Loading images...</h2>
 </div>
 
 <!-- START SCREEN -->
@@ -60,14 +60,14 @@ Next →
 </div>
 
 <!-- END SCREEN -->
-<div id="endScreen" style="display:none;">
-<h1>Game Over</h1>
+<div id="endScreen" style="display:none; text-align:center;">
 
-<p>Score: <span id="finalScore"></span></p>
-<p>High Score: <span id="highScore"></span></p>
+    <h1>Game Over</h1>
 
-<button onclick="startGame()">Play Again</button>
-</div>
+    <h2 id="finalScore">Score: 0</h2>
+
+    <button onclick="restartGame()">Play Again</button>
+    <button onclick="goHome()">Main Menu</button>
 
 </div>
 

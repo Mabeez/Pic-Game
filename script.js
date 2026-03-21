@@ -46,7 +46,7 @@ let provinces = [
 {name:"Saskatchewan", points:[[303,221],[377,233],[373,294],[366,373],[261,365]]},
 {name:"Manitoba", points:[[380,232],[454,231],[515,270],[451,327],[451,378],[372,372]]},
 {name:"Ontario", points:[[518,273],[591,288],[639,338],[663,390],[723,401],[634,453],[593,410],[454,378],[451,328]]},
-{name:"Quebec", points:[[871,290],[889,259],[782,288],[761,251],[789,243],[738,191],[685,190],[604,188],[637,335],[662,387],[725,397],[774,392],[801,317]]},
+{name:"Quebec", points:[[871,290],[889,259],[782,288],[761,251],[789,243],[738,191],[685,190],[604,188],[643,331],[662,387],[725,397],[774,392],[801,317]]},
 {name:"New Brunswick", points:[[798,350],[840,340],[840,350],[859,359],[843,375],[826,378]]},
 {name:"Nova Scotia", points:[[863,361],[887,355],[894,347],[895,334],[904,334],[904,338],[918,341],[910,348],[902,356],[906,356],[871,377],[866,389],[859,394],[848,392]]},
 {name:"PEI", points:[[852,347],[862,350],[869,350],[883,345],[887,350],[880,354],[852,355]]},
@@ -498,6 +498,8 @@ document.getElementById("startScreen").style.display = "block"
 
 })
 
+
+
 // Fallback in case images take too long
 setTimeout(() => {
 if(document.getElementById("loading").style.display !== "none"){
@@ -522,6 +524,23 @@ canvas.addEventListener("click", function onClick(e) {
     const relativeY = ((y - offsetY) / drawHeight) * 500
     console.log(Math.round(relativeX), Math.round(relativeY))
 })
+
+function endGame(){
+
+cancelAnimationFrame(animationFrame)
+
+document.getElementById("gameScreen").style.display = "none"
+
+const endScreen = document.getElementById("endScreen")
+endScreen.style.display = "block"
+
+setTimeout(() => {
+    endScreen.classList.add("show")
+}, 10)
+
+document.getElementById("finalScore").innerText = "Score: " + score
+
+}
 
 const guessInput = document.getElementById("guess")
 
