@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Picture Trivia - App2</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="game-container">
+
+<!-- LOADING SCREEN -->
+<div id="loading">
+<h2>Hold your horses... Loading map...</h2>
+</div>
+
+<!-- START SCREEN -->
+<div id="startScreen" style="display:none;">
+<h1>Canada Province Quiz</h1>
+<button onclick="startGame()">Start Canada Game</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen" style="display:none;">
+
+<h1>Guess The Province</h1>
+
+<div class="stats">
+<div>Round: <span id="round">1</span></div>
+<div>Time: <span id="timer">20</span></div>
+<div>Score: <span id="score">0</span></div>
+<button id="nextButton" onclick="nextRound()" style="padding:10px 20px; font-size:18px;">Next →</button>
+</div>
+
+<canvas id="canvas" width="500" height="350"></canvas>
+
+<h2 id="answer" class="hidden"></h2>
+
+<div class="controls">
+<input id="guess" placeholder="Your guess">
+<button onclick="submitGuess()">Submit</button>
+</div>
+
+<button id="pauseButton" onclick="togglePause()">Pause</button>
+
+</div>
+
+<!-- END SCREEN -->
+<div id="endScreen" style="display:none; text-align:center;">
+
+<h1>Game Over</h1>
+
+<h2 id="finalScore">Score: 0</h2>
+
+<button onclick="restartGame()">Play Again</button>
+<button onclick="goHome()">Main Menu</button>
+
+</div>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>

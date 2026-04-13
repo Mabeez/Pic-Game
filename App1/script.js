@@ -4,38 +4,36 @@ const img = new Image()
 const tempCanvas = document.createElement("canvas")
 const tempCtx = tempCanvas.getContext("2d")
 
-
 /* QUESTIONS */
 
 let questions = [
-{src:"images/butterfly.jpg", answer:"Butterfly"},
-{src:"images/chateau.jpg", answer:"Chateau"},
-{src:"images/ddo.jpg", answer:"DDO"},
-{src:"images/fire.jpg", answer:"Fire"},
-{src:"images/fortnite.jpg", answer:"Fortnite"},
-{src:"images/helicopter.jpg", answer:"Helicopter"},
-{src:"images/lightning.jpg", answer:"Lightning"},
-{src:"images/lion.jpg", answer:"Lion"},
-{src:"images/luffy.jpg", answer:"Luffy"},
-{src:"images/maki.webp", answer:"Maki"},
-{src:"images/mickeymouse.jpg", answer:"Mickey Mouse"},
-{src:"images/moose.jpg", answer:"Moose"},
-{src:"images/mountains.jpg", answer:"Mountains"},
-{src:"images/naruto.jpg", answer:"Naruto"},
-{src:"images/rainbow.jpg", answer:"Rainbow"},
-{src:"images/rocket.jpg", answer:"Rocket League"},
-{src:"images/spider.jpg", answer:"Spider"},
-{src:"images/TaylorSwift.jpg", answer:"Taylor Swift"},
-{src:"images/thor.jpg", answer:"Thor"},
-{src:"images/tiger.jpg", answer:"Tiger"},
-{src:"images/turtle.jpg", answer:"Turtle"},
-{src:"images/volcano.jpg", answer:"Volcano"},
-{src:"images/waterfall.jpg", answer:"Waterfall"},
-{src:"images/yuji.jpg", answer:"Yuji"}
+{src:"../images/butterfly.jpg", answer:"Butterfly"},
+{src:"../images/chateau.jpg", answer:"Chateau"},
+{src:"../images/ddo.jpg", answer:"DDO"},
+{src:"../images/fire.jpg", answer:"Fire"},
+{src:"../images/fortnite.jpg", answer:"Fortnite"},
+{src:"../images/helicopter.jpg", answer:"Helicopter"},
+{src:"../images/lightning.jpg", answer:"Lightning"},
+{src:"../images/lion.jpg", answer:"Lion"},
+{src:"../images/luffy.jpg", answer:"Luffy"},
+{src:"../images/maki.webp", answer:"Maki"},
+{src:"../images/mickeymouse.jpg", answer:"Mickey Mouse"},
+{src:"../images/moose.jpg", answer:"Moose"},
+{src:"../images/mountains.jpg", answer:"Mountains"},
+{src:"../images/naruto.jpg", answer:"Naruto"},
+{src:"../images/rainbow.jpg", answer:"Rainbow"},
+{src:"../images/rocket.jpg", answer:"Rocket League"},
+{src:"../images/spider.jpg", answer:"Spider"},
+{src:"../images/TaylorSwift.jpg", answer:"Taylor Swift"},
+{src:"../images/thor.jpg", answer:"Thor"},
+{src:"../images/tiger.jpg", answer:"Tiger"},
+{src:"../images/turtle.jpg", answer:"Turtle"},
+{src:"../images/volcano.jpg", answer:"Volcano"},
+{src:"../images/waterfall.jpg", answer:"Waterfall"},
+{src:"../images/yuji.jpg", answer:"Yuji"}
 ];
 
 let loadedImages = []
-
 let gameMode = "image"
 
 /* GAME STATE */
@@ -254,6 +252,8 @@ el.classList.remove("hidden")
 
 function nextRound(){
 
+if(gameMode === "image"){
+
 cancelAnimationFrame(animationFrame)
 
 /* show answer before moving on */
@@ -262,6 +262,8 @@ showAnswer()
 round++
 
 setTimeout(startRound,500)
+
+}
 
 }
 

@@ -1,24 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
-<title>Picture Trivia</title>
-
+<title>Picture Trivia - App1</title>
 <link rel="stylesheet" href="styles.css">
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#243b55">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Coral+Pixels&family=Kranky&display=swap" rel="stylesheet">
-
 </head>
-
 <body>
-
-<div class="game-container">
+    <div class="game-container">
 
 <!-- LOADING SCREEN -->
 <div id="loading">
@@ -29,7 +17,6 @@
 <div id="startScreen" style="display:none;">
 <h1>Picture Trivia</h1>
 <button onclick="startGame()">Image Mode</button>
-<button onclick="window.location.href='App2/index.html'">Canada Mode</button>
 </div>
 
 <!-- GAME SCREEN -->
@@ -71,14 +58,7 @@ Next →
 
 </div>
 
+
 <script src="script.js"></script>
-
-<!-- SERVICE WORKER -->
-<script>
-if ("serviceWorker" in navigator) {
-navigator.serviceWorker.register("service-worker.js")
-}
-</script>
-
 </body>
 </html>
